@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCD Health Information System | Admin Dashboard</title>
+<style>
+:root{
+    --blue:#0757ad;
+    --blue-dark:#063f80;
+    --blue-soft:#eef6ff;
+    --red:#d9363e;
+    --green:#15945a;
+    --orange:#e58a16;
+    --purple:#6d4bd1;
+    --text:#172235;
+    --muted:#6d7888;
+    --line:#e4eaf1;
+    --bg:#f6f9fc;
+    --white:#fff;
+    --shadow:0 8px 28px rgba(20,56,92,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:var(--bg)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+.app{display:flex;min-height:100vh}
+.sidebar{
+    width:235px;flex:0 0 235px;height:100vh;position:sticky;top:0;
+    background:linear-gradient(180deg,#075eb9,#06498f);color:white;
+    padding:16px 12px;overflow-y:auto;z-index:30;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 20px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:14px}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:20px}
+.brand strong{display:block;font-size:15px}.brand small{opacity:.75;font-size:10px}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{
+    width:100%;border:0;background:transparent;color:rgba(255,255,255,.9);
+    display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:8px;
+    text-align:left;font-size:13px;
+}
+.nav button:hover,.nav button.active{background:rgba(255,255,255,.16);color:#fff}
+.nav-icon{width:18px;text-align:center;font-size:15px}
+.sidebar-bottom{margin-top:22px;padding:12px;border-radius:11px;background:rgba(255,255,255,.09);font-size:11px;line-height:1.55;color:#e8f2ff}
+
+.main{flex:1;min-width:0;padding:20px 24px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px}
+.page-heading h1{font-size:22px;margin:0 0 4px}
+.page-heading p{margin:0;color:var(--muted);font-size:12px}
+.user-area{display:flex;align-items:center;gap:10px}
+.icon-btn{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:10px;display:grid;place-items:center;color:#425269}
+.avatar{width:38px;height:38px;border-radius:50%;background:#dcecff;color:var(--blue-dark);display:grid;place-items:center;font-weight:700}
+.user-name{font-weight:700;font-size:12px}.user-role{font-size:10px;color:var(--muted);margin-top:2px}
+
+.view{display:none}.view.active{display:block}
+.grid{display:grid;gap:14px}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.content-card{padding:18px}
+.kpi{padding:16px;border-radius:12px;border:1px solid var(--line)}
+.kpi.blue{background:#f1f7ff}.kpi.green{background:#f1fbf6}.kpi.orange{background:#fff8ee}.kpi.red{background:#fff3f3}
+.kpi .label{font-size:11px;color:var(--muted)}.kpi .value{font-size:25px;font-weight:800;margin:7px 0}.kpi .foot{font-size:10px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.section-head h2{font-size:15px;margin:0}.section-head p,.section-head span{font-size:11px;color:var(--muted);margin:4px 0 0}
+.btn{border:0;border-radius:8px;padding:9px 13px;font-weight:700;font-size:12px}
+.btn-primary{background:var(--blue);color:white}.btn-primary:hover{background:var(--blue-dark)}
+.btn-light{background:#f4f7fa;color:#34445a;border:1px solid var(--line)}
+.btn-green{background:#eaf8f1;color:#137448;border:1px solid #ccebdc}
+.btn-orange{background:#fff6e8;color:#a86408;border:1px solid #f3dfbd}
+.btn-danger{background:#fff0f1;color:#b4232c;border:1px solid #ffd5d8}
+
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.quick{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;cursor:pointer}
+.quick:hover{border-color:#a8c8e9;box-shadow:0 4px 14px rgba(20,56,92,.05)}
+.quick-icon{font-size:20px;color:var(--blue);margin-bottom:7px}.quick b{font-size:12px}.quick p{font-size:10px;color:var(--muted);margin:4px 0 0}
+
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.input,.select,.textarea{border:1px solid #dbe3ec;border-radius:8px;background:#fff;padding:9px 10px;outline:none;color:var(--text)}
+.input:focus,.select:focus,.textarea:focus{border-color:#76aee8;box-shadow:0 0 0 3px #eaf4ff}
+.search{min-width:240px;flex:1}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:920px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid #edf1f5;font-size:12px;white-space:nowrap}
+th{background:#f8fafc;color:#667384;font-size:10px;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.status{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700}
+.status.pending{background:#fff6e8;color:#a86408}.status.active{background:#e9f8f0;color:#14814e}
+.status.inactive{background:#f1f4f7;color:#657180}.status.rejected{background:#fff0f1;color:#b32933}
+.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 8px;font-size:10px;font-weight:700}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:11px;font-weight:700;color:#4f5e70}
+.field.full{grid-column:1/-1}.textarea{min-height:85px;resize:vertical}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.notice{padding:11px 13px;border-radius:9px;background:#f1f7ff;border:1px solid #d7e9fb;color:#315a80;font-size:11px;line-height:1.5}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#edf4ff;color:#2563a6}
+
+.toast{position:fixed;right:22px;bottom:22px;background:#17324f;color:#fff;padding:11px 14px;border-radius:9px;box-shadow:var(--shadow);display:none;z-index:100;font-size:12px}
+.toast.show{display:block}
+.mobile-menu{display:none}
+
+@media(max-width:1000px){
+    .grid-4{grid-template-columns:repeat(2,1fr)}
+    .form-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+    .sidebar{position:fixed;left:-240px;transition:.2s}.sidebar.open{left:0}
+    .main{padding:15px}.mobile-menu{display:grid}
+    .user-name,.user-role{display:none}
+    .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+    .form-grid{grid-template-columns:1fr}
+    .quick-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <div class="brand-mark">♥</div>
+        <div><strong>SCD Health</strong><small>Information System</small></div>
+    </div>
+
+    <nav class="nav">
+        <button class="active" data-view="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+        <button data-view="users"><span class="nav-icon">♙</span>User Management</button>
+        <button data-view="workers"><span class="nav-icon">✚</span>Health Workers</button>
+        <button data-view="patients"><span class="nav-icon">♧</span>Patients</button>
+        <button data-view="reports"><span class="nav-icon">▥</span>Reports</button>
+        <button data-view="audit"><span class="nav-icon">◷</span>Audit Log</button>
+        <button data-view="profile"><span class="nav-icon">◉</span>Profile</button>
+        <button data-view="settings"><span class="nav-icon">⚙</span>Settings</button>
+        <button id="logoutBtn"><span class="nav-icon">↪</span>Logout</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <b>Administrator Access</b><br>
+        Manage accounts, permissions and system activity from one place.
+    </div>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <button class="icon-btn mobile-menu" id="mobileMenu">☰</button>
+        <div class="page-heading">
+            <h1 id="pageTitle">Admin Dashboard</h1>
+            <p id="pageSubtitle">Overview of system activity</p>
+        </div>
+        <div class="user-area">
+            <button class="icon-btn" id="alertsBtn">♧</button>
+            <div class="avatar">AD</div>
+            <div>
+                <div class="user-name">Administrator</div>
+                <div class="user-role">System Administrator</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+        <div class="grid grid-4">
+            <div class="kpi blue"><div class="label">Total Patients</div><div class="value">—</div><div class="foot">Current total</div></div>
+            <div class="kpi green"><div class="label">Health Workers</div><div class="value">—</div><div class="foot">Registered staff</div></div>
+            <div class="kpi orange"><div class="label">Pending Approvals</div><div class="value">—</div><div class="foot">Awaiting review</div></div>
+            <div class="kpi red"><div class="label">Active Users</div><div class="value">—</div><div class="foot">Current total</div></div>
+        </div>
+
+        <section class="card content-card" style="margin-top:14px">
+            <div class="section-head">
+                <div><h2>Health Worker Management</h2><span>Manage staff accounts and access.</span></div>
+                <button class="btn btn-primary" data-action="add-worker">+ Add Health Worker</button>
+            </div>
+            <div class="quick-grid">
+                <div class="quick" data-action="add-worker"><div class="quick-icon">＋</div><b>Add Health Worker</b><p>Register a new staff member.</p></div>
+                <div class="quick" data-action="pending-workers"><div class="quick-icon">✓</div><b>Approve Accounts</b><p>Review accounts awaiting approval.</p></div>
+                <div class="quick" data-action="workers"><div class="quick-icon">♙</div><b>Manage Health Workers</b><p>Manage registered staff.</p></div>
+            </div>
+        </section>
+
+        <section class="grid grid-2" style="margin-top:14px">
+            <div class="card content-card"><div class="section-head"><div><h2>Recent Registrations</h2><span>Latest account registrations.</span></div></div><div class="empty">No recent registrations.</div></div>
+            <div class="card content-card"><div class="section-head"><div><h2>Pending Health Workers</h2><span>Staff accounts awaiting review.</span></div></div><div class="empty">No pending approvals.</div></div>
+        </section>
+    </section>
+
+    <!-- HEALTH WORKERS -->
+    <section class="view" id="view-workers">
+        <div class="card content-card">
+            <div class="section-head">
+                <div><h2>Health Worker Management</h2><span>Register and manage clinical staff accounts.</span></div>
+                <button class="btn btn-primary" data-action="add-worker">+ Add Health Worker</button>
+            </div>
+
+            <div class="filters">
+                <input class="input search" id="workerSearch" placeholder="Search by name, username, phone or facility...">
+                <select class="select" id="workerStatus"><option value="">All Statuses</option><option value="pending">Pending</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="rejected">Rejected</option></select>
+                <select class="select"><option>All Roles</option><option>Doctor</option><option>Clinical Officer</option><option>Nurse</option><option>Laboratory Staff</option><option>Records Officer</option></select>
+                <button class="btn btn-light" id="filterWorkers">Filter</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Staff ID</th><th>Name</th><th>Role</th><th>Facility</th><th>Phone</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead>
+                    <tbody id="workerRows">
+                        <tr><td colspan="8"><div class="empty">No health-worker records are hard-coded. No health workers found.</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <section class="card content-card" id="workerFormCard" style="margin-top:14px">
+            <div class="section-head">
+                <div><h2>Add Health Worker</h2><span>Register a new health worker.</span></div>
+                <span class="badge">Pending approval by default</span>
+            </div>
+
+            <div class="notice">Please confirm the staff details before creating the account.</div>
+
+            <form id="workerForm" style="margin-top:15px">
+                <div class="form-grid">
+                    <div class="field"><label>First Name *</label><input class="input" name="first_name" required></div>
+                    <div class="field"><label>Last Name *</label><input class="input" name="last_name" required></div>
+                    <div class="field"><label>Username *</label><input class="input" name="username" required></div>
+                    <div class="field"><label>Email</label><input class="input" type="email" name="email"></div>
+                    <div class="field"><label>Phone *</label><input class="input" name="phone" required></div>
+                    <div class="field"><label>Professional Registration No.</label><input class="input" name="registration_number"></div>
+                    <div class="field"><label>Role *</label><select class="select" name="role" required><option value="">Select role</option><option>Doctor</option><option>Clinical Officer</option><option>Nurse</option><option>Laboratory Staff</option><option>Records Officer</option><option>Other Health Worker</option></select></div>
+                    <div class="field"><label>Facility *</label><input class="input" name="facility" required></div>
+                    <div class="field"><label>Department</label><input class="input" name="department"></div>
+                    <div class="field"><label>Temporary Password *</label><input class="input" type="password" name="password" required></div>
+                    <div class="field"><label>Confirm Password *</label><input class="input" type="password" name="confirm_password" required></div>
+                    <div class="field"><label>Account Status</label><select class="select" name="status"><option value="pending" selected>Pending Approval</option><option value="active">Active</option></select></div>
+                    <div class="field full"><label>Administrative Notes</label><textarea class="textarea" name="notes" placeholder="Optional notes about the registration..."></textarea></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-light" id="cancelWorker">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Health Worker</button>
+                </div>
+            </form>
+        </section>
+    </section>
+
+    <!-- OTHER ADMIN VIEWS -->
+    <section class="view" id="view-users"><div class="card content-card"><div class="section-head"><div><h2>User Management</h2><span>Manage registered users and their access.</span></div><button class="btn btn-primary" data-action="add-worker">+ Register User</button></div><div class="empty">No users found.</div></div></section>
+    <section class="view" id="view-patients"><div class="card content-card"><div class="section-head"><div><h2>Patients</h2><span>Patient accounts and registration information.</span></div></div><div class="empty">Manage registered patients.</div></div></section>
+    <section class="view" id="view-reports"><div class="card content-card"><div class="section-head"><div><h2>Reports</h2><span>System reports will use live database information.</span></div></div><div class="empty">No reports available.</div></div></section>
+    <section class="view" id="view-audit"><div class="card content-card"><div class="section-head"><div><h2>Audit Log</h2><span>Administrator and system activities.</span></div></div><div class="empty">Review recent system activities.</div></div></section>
+    <section class="view" id="view-profile"><div class="card content-card"><div class="section-head"><div><h2>Administrator Profile</h2><span>Profile information will be loaded from the authenticated account.</span></div></div><div class="empty">Administrator profile information.</div></div></section>
+    <section class="view" id="view-settings"><div class="card content-card"><div class="section-head"><div><h2>System Settings</h2><span>Configuration options for authorised administrators.</span></div></div><div class="empty">Manage system preferences.</div></div></section>
+</main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const titles = {
+    dashboard:["Admin Dashboard","Overview of system activity"],
+    users:["User Management","Manage system users and access"],
+    workers:["Health Workers","Register and manage health-worker access"],
+    patients:["Patients","Manage patient accounts and records"],
+    reports:["Reports","System reports and administrative summaries"],
+    audit:["Audit Log","Review important system activities"],
+    profile:["Administrator Profile","Manage your administrator account"],
+    settings:["System Settings","Manage authorised system preferences"]
+};
+
+function showToast(message){
+    const toast=document.getElementById("toast");
+    toast.textContent=message;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2600);
+}
+
+function showView(name){
+    document.querySelectorAll(".view").forEach(view=>view.classList.remove("active"));
+    document.getElementById("view-"+name)?.classList.add("active");
+
+    document.querySelectorAll(".nav button[data-view]").forEach(btn=>btn.classList.toggle("active",btn.dataset.view===name));
+
+    if(titles[name]){
+        document.getElementById("pageTitle").textContent=titles[name][0];
+        document.getElementById("pageSubtitle").textContent=titles[name][1];
+    }
+    document.getElementById("sidebar").classList.remove("open");
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function openAddWorker(){
+    showView("workers");
+    document.getElementById("workerFormCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openWorkers(filterPending=false){
+    showView("workers");
+    if(filterPending) document.getElementById("workerStatus").value="pending";
+}
+
+document.querySelectorAll(".nav button[data-view]").forEach(btn=>{
+    btn.addEventListener("click",()=>showView(btn.dataset.view));
+});
+
+document.querySelectorAll("[data-action]").forEach(el=>{
+    el.addEventListener("click",()=>{
+        const action=el.dataset.action;
+        if(action==="add-worker") openAddWorker();
+        if(action==="workers") openWorkers(false);
+        if(action==="pending-workers") openWorkers(true);
+    });
+});
+
+document.getElementById("mobileMenu").addEventListener("click",()=>{
+    document.getElementById("sidebar").classList.toggle("open");
+});
+
+document.getElementById("alertsBtn").addEventListener("click",()=>{
+    showToast("No new alerts.");
+});
+
+document.getElementById("cancelWorker").addEventListener("click",()=>{
+    document.getElementById("workerForm").reset();
+    showView("dashboard");
+});
+
+document.getElementById("workerForm").addEventListener("submit",function(event){
+    event.preventDefault();
+    const password=this.elements.password.value;
+    const confirm=this.elements.confirm_password.value;
+
+    if(password!==confirm){
+        showToast("Passwords do not match.");
+        return;
+    }
+
+    showToast("Health worker details are ready to be saved.");
+    this.reset();
+});
+
+document.getElementById("filterWorkers").addEventListener("click",()=>{
+    showToast("Search and filter applied.");
+});
+
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+    if(confirm("Are you sure you want to log out?")){
+        localStorage.removeItem("scdUser");
+        window.location.href="index.html";
+    }
+});
+</script>
+</body>
+</html>
