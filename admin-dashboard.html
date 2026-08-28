@@ -115,12 +115,114 @@ tr:last-child td{border-bottom:0}
     .quick-grid{grid-template-columns:1fr}
 }
 </style>
+<style>
+.facility-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.facility-form-grid .field.full{grid-column:1/-1}
+.facility-preview{margin-top:20px;padding:18px;text-align:center;border:1px solid #d7e3ec;border-top:4px solid #1769aa;border-bottom:2px solid #d95b5b;border-radius:11px;background:#fbfdff}
+.facility-preview .fp-name{font-size:18px;font-weight:800;color:#164f7d}
+.facility-preview .fp-line{font-size:10px;color:#65788c;margin-top:4px}
+.facility-preview .fp-rule{height:1px;background:#d9e4ed;margin:11px 0}
+.facility-preview .fp-title{font-size:12px;font-weight:800;color:#26364a}
+.facility-strip{display:flex;align-items:center;gap:12px;padding:9px 13px;margin:0 0 13px;border:1px solid rgba(207,221,232,.9);border-left:4px solid #1769aa;border-right:4px solid #d95b5b;border-radius:10px;background:rgba(255,255,255,.90);box-shadow:0 4px 16px rgba(24,60,90,.05)}
+.facility-strip .facility-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#eaf4fb;color:#1769aa;font-weight:800;font-size:13px;overflow:hidden;flex:0 0 34px}
+.facility-strip .facility-mark img{width:100%;height:100%;object-fit:contain}.facility-strip .facility-name{font-weight:800;color:#164f7d;font-size:13px;line-height:1.15}.facility-strip .facility-meta{font-size:9px;color:#718096;margin-top:3px;line-height:1.35}.facility-strip .facility-code{margin-left:auto;font-size:9px;color:#718096;text-align:right}
+@media(max-width:1000px){.facility-form-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.facility-form-grid{grid-template-columns:1fr}.facility-form-grid .field.full{grid-column:auto}.facility-strip .facility-code{display:none}}
+</style>
+
+
+
+
+<style id="scd-hard-frame-fix">
+
+/* Final frame: the blue navigation and working area are separate columns. */
+html,body{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  min-height:100%!important;
+  overflow-x:auto!important;
+}
+.app{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  min-height:100vh!important;
+  margin:0!important;
+  padding:0!important;
+}
+.sidebar,#sidebar{
+  position:fixed!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:315px!important;
+  min-width:315px!important;
+  max-width:315px!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:2147483647!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+  background:#075fc0!important;
+  background-image:none!important;
+  color:#fff!important;
+}
+.sidebar .brand,.sidebar .nav,.sidebar .nav a,
+#sidebar .brand,#sidebar .nav,#sidebar .nav a{
+  visibility:visible!important;
+  opacity:1!important;
+}
+.sidebar .nav a,#sidebar .nav a{
+  color:#fff!important;
+  text-decoration:none!important;
+}
+.main{
+  position:relative!important;
+  display:block!important;
+  width:calc(100% - 315px)!important;
+  min-width:0!important;
+  min-height:100vh!important;
+  margin:0 0 0 315px!important;
+  padding:14px 18px!important;
+  box-sizing:border-box!important;
+  background-color:#f7fafc!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),
+    url("nam.png")!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-attachment:fixed!important;
+}
+@media(max-width:720px){
+  html,body{min-width:900px!important;}
+  .sidebar,#sidebar{
+    position:fixed!important;
+    left:0!important;
+    width:315px!important;
+    min-width:315px!important;
+    max-width:315px!important;
+  }
+  .main{
+    margin-left:315px!important;
+    width:calc(100% - 315px)!important;
+    min-width:585px!important;
+    background-attachment:scroll!important;
+  }
+}
+
+</style>
 </head>
 <body>
 
 <div class="app">
 
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar" style="position:fixed !important;left:0 !important;top:0 !important;bottom:0 !important;width:315px !important;min-width:315px !important;max-width:315px !important;height:100vh !important;min-height:100vh !important;box-sizing:border-box !important;display:block !important;visibility:visible !important;opacity:1 !important;z-index:2147483647 !important;overflow-x:hidden !important;overflow-y:auto !important;margin:0 !important;padding:16px 11px !important;background:#075fc0 !important;background-image:none !important;color:#ffffff !important;">
     <div class="brand">
         <div class="brand-mark">♥</div>
         <div><strong>SCD Health</strong><small>Information System</small></div>
@@ -134,6 +236,7 @@ tr:last-child td{border-bottom:0}
         <button data-view="reports"><span class="nav-icon">▥</span>Reports</button>
         <button data-view="audit"><span class="nav-icon">◷</span>Audit Log</button>
         <button data-view="profile"><span class="nav-icon">◉</span>Profile</button>
+        <button data-view="facility"><span class="nav-icon">▣</span>Facility Details</button>
         <button data-view="settings"><span class="nav-icon">⚙</span>Settings</button>
         <button id="logoutBtn"><span class="nav-icon">↪</span>Logout</button>
     </nav>
@@ -144,7 +247,7 @@ tr:last-child td{border-bottom:0}
     </div>
 </aside>
 
-<main class="main">
+<main class="main" style="position:relative !important;display:block !important;width:calc(100% - 315px) !important;min-width:0 !important;margin-left:315px !important;margin-right:0 !important;margin-top:0 !important;box-sizing:border-box !important;min-height:100vh !important;padding:14px 18px !important;background-color:#f7fafc !important;background-image:linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),url("nam.png") !important;background-repeat:no-repeat !important;background-position:center center !important;background-size:cover !important;background-attachment:fixed !important;">
     <div class="topbar">
         <button class="icon-btn mobile-menu" id="mobileMenu">☰</button>
         <div class="page-heading">
@@ -179,6 +282,7 @@ tr:last-child td{border-bottom:0}
                 <div class="quick" data-action="add-worker"><div class="quick-icon">＋</div><b>Add Health Worker</b><p>Register a new staff member.</p></div>
                 <div class="quick" data-action="pending-workers"><div class="quick-icon">✓</div><b>Approve Accounts</b><p>Review accounts awaiting approval.</p></div>
                 <div class="quick" data-action="workers"><div class="quick-icon">♙</div><b>Manage Health Workers</b><p>Manage registered staff.</p></div>
+                <div class="quick" data-action="facility"><div class="quick-icon">▣</div><b>Facility Details</b><p>Set the facility information used across the system.</p></div>
             </div>
         </section>
 
@@ -251,6 +355,54 @@ tr:last-child td{border-bottom:0}
     <section class="view" id="view-reports"><div class="card content-card"><div class="section-head"><div><h2>Reports</h2><span>System reports will use live database information.</span></div></div><div class="empty">No reports available.</div></div></section>
     <section class="view" id="view-audit"><div class="card content-card"><div class="section-head"><div><h2>Audit Log</h2><span>Administrator and system activities.</span></div></div><div class="empty">Review recent system activities.</div></div></section>
     <section class="view" id="view-profile"><div class="card content-card"><div class="section-head"><div><h2>Administrator Profile</h2><span>Profile information will be loaded from the authenticated account.</span></div></div><div class="empty">Administrator profile information.</div></div></section>
+    <section class="view" id="view-facility">
+        <section class="card content-card">
+            <div class="section-head">
+                <div><h2>Facility Details</h2><span>Set the facility identity used throughout the system and on future printed documents.</span></div>
+                <span class="badge">Administrator only</span>
+            </div>
+            <form id="facilityForm">
+                <div class="facility-form-grid">
+                    <div class="field"><label>Facility Name *</label><input class="input" name="name" required></div>
+                    <div class="field"><label>Short Name</label><input class="input" name="shortName"></div>
+                    <div class="field"><label>Service Tagline</label><input class="input" name="tagline"></div>
+                    <div class="field"><label>Facility Code</label><input class="input" name="facilityCode"></div>
+                    <div class="field"><label>Facility Level</label><select class="select" name="level"><option value="">Select level</option><option>Health Centre II</option><option>Health Centre III</option><option>Health Centre IV</option><option>General Hospital</option><option>Regional Referral Hospital</option><option>National Referral Hospital</option><option>Private Hospital</option><option>Clinic</option><option>Other</option></select></div>
+                    <div class="field"><label>Ownership</label><select class="select" name="ownership"><option value="">Select ownership</option><option>Government</option><option>Private</option><option>Private Not-for-Profit</option><option>Community</option><option>Other</option></select></div>
+                    <div class="field"><label>Registration / Licence No.</label><input class="input" name="registrationNo"></div>
+                    <div class="field"><label>County</label><input class="input" name="county"></div>
+                    <div class="field"><label>District *</label><input class="input" name="district"></div>
+                    <div class="field"><label>Sub-county / Division</label><input class="input" name="subCounty"></div>
+                    <div class="field"><label>Parish / Ward</label><input class="input" name="parish"></div>
+                    <div class="field"><label>Village / Area</label><input class="input" name="village"></div>
+                    <div class="field full"><label>Physical / Postal Address</label><input class="input" name="address"></div>
+                    <div class="field"><label>Main Telephone</label><input class="input" name="phone"></div>
+                    <div class="field"><label>Alternative Telephone</label><input class="input" name="altPhone"></div>
+                    <div class="field"><label>Email Address</label><input class="input" type="email" name="email"></div>
+                    <div class="field"><label>Website</label><input class="input" name="website"></div>
+                    <div class="field full"><label>Logo Image Path / URL</label><input class="input" name="logo" placeholder="Optional path or URL to the facility logo"></div>
+                    <div class="field full"><label>Printed Header Line</label><input class="input" name="printHeader" placeholder="Optional line appearing beneath the facility name on printed documents"></div>
+                    <div class="field"><label>Report / Print Signatory</label><input class="input" name="signatory"></div>
+                    <div class="field"><label>Signatory Title</label><input class="input" name="signatoryTitle"></div>
+                    <div class="field full"><label>Printed Footer</label><textarea class="textarea" name="printFooter" placeholder="Optional footer for facility documents and reports"></textarea></div>
+                </div>
+                <div class="facility-preview" id="facilityPreview">
+                    <div class="fp-name" data-facility-name>SCD Health Facility</div>
+                    <div class="fp-line" data-facility-tagline>Sickle Cell Health Services</div>
+                    <div class="fp-line" data-facility-location></div>
+                    <div class="fp-line" data-facility-contact></div>
+                    <div class="fp-rule"></div>
+                    <div class="fp-title">Document / Report Heading Preview</div>
+                    <div class="fp-line" data-facility-code></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-light" id="facilityReset">Reset Form</button>
+                    <button type="submit" class="btn btn-primary">Save Facility Details</button>
+                </div>
+            </form>
+        </section>
+    </section>
+
     <section class="view" id="view-settings"><div class="card content-card"><div class="section-head"><div><h2>System Settings</h2><span>Configuration options for authorised administrators.</span></div></div><div class="empty">Manage system preferences.</div></div></section>
 </main>
 </div>
@@ -266,6 +418,7 @@ const titles = {
     reports:["Reports","System reports and administrative summaries"],
     audit:["Audit Log","Review important system activities"],
     profile:["Administrator Profile","Manage your administrator account"],
+    facility:["Facility Details","Facility identity, contact details and print heading"],
     settings:["System Settings","Manage authorised system preferences"]
 };
 
@@ -310,6 +463,7 @@ document.querySelectorAll("[data-action]").forEach(el=>{
         if(action==="add-worker") openAddWorker();
         if(action==="workers") openWorkers(false);
         if(action==="pending-workers") openWorkers(true);
+        if(action==="facility") showView("facility");
     });
 });
 
@@ -351,5 +505,19 @@ document.getElementById("logoutBtn").addEventListener("click",()=>{
     }
 });
 </script>
+<script src="facility-settings.js"></script>
+
+(function(){
+  const KEY='scdFacilitySettings';
+  const defaults={name:'SCD Health Facility',shortName:'SCD Health Facility',tagline:'Sickle Cell Health Services',facilityCode:'',level:'',ownership:'',registrationNo:'',district:'',county:'',subCounty:'',parish:'',village:'',address:'',phone:'',altPhone:'',email:'',website:'',printHeader:'',printFooter:'',signatory:'',signatoryTitle:'',logo:''};
+  const get=()=>{try{return Object.assign({},defaults,JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){return {...defaults};}};
+  const form=document.getElementById('facilityForm');
+  const load=()=>{if(!form)return;const f=get();Object.keys(f).forEach(k=>{if(form.elements[k])form.elements[k].value=f[k]||'';});};
+  const initials=n=>(n||'SCD').split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join('').toUpperCase();
+  const render=()=>{const f=get();document.querySelectorAll('[data-facility-name]').forEach(e=>e.textContent=f.name||defaults.name);document.querySelectorAll('[data-facility-tagline]').forEach(e=>e.textContent=f.tagline||'');const place=[f.address,f.village,f.parish,f.subCounty,f.district].filter(Boolean).join(' • ');const contact=[f.phone,f.altPhone,f.email].filter(Boolean).join(' • ');document.querySelectorAll('[data-facility-location]').forEach(e=>e.textContent=place);document.querySelectorAll('[data-facility-contact]').forEach(e=>e.textContent=contact);document.querySelectorAll('[data-facility-code]').forEach(e=>e.textContent=f.facilityCode?'Facility Code: '+f.facilityCode:'');};
+  if(form){load();form.addEventListener('input',render);form.addEventListener('submit',e=>{e.preventDefault();const data={};Array.from(form.elements).forEach(el=>{if(el.name)data[el.name]=el.value.trim();});localStorage.setItem(KEY,JSON.stringify(Object.assign({},get(),data)));render();showToast('Facility details saved.');});}
+  const reset=document.getElementById('facilityReset'); if(reset) reset.addEventListener('click',load);
+  render();
+})();
 </body>
 </html>

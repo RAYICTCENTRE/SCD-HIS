@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facility Reports</title>
+<style>
+body{margin:0;background:#f3f7fa;font-family:Arial;color:#26394b}.wrap{max-width:1100px;margin:auto;padding:28px}.card{background:#fff;border:1px solid #d9e4ec;border-radius:16px;padding:26px;box-shadow:0 8px 24px #19375012}
+h1{margin:0;color:#164f7d}.sub{color:#708092;margin:7px 0 25px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}label{display:block;font-weight:bold;margin-bottom:7px}select,input{width:100%;padding:13px;border:1px solid #cfdbe5;border-radius:9px;background:#fff}
+.actions{margin-top:18px}button{border:0;border-radius:9px;padding:12px 18px;font-weight:bold;cursor:pointer}.generate{background:#176aa0;color:#fff}.back{background:#edf2f6;color:#33495d}.preview{display:none;margin-top:24px}.preview iframe{width:100%;height:760px;border:1px solid #d9e4ec;border-radius:12px}
+@media(max-width:700px){.wrap{padding:14px}.grid{grid-template-columns:1fr}}
+</style>
+<style>
+/* Facility identity layer */
+.facility-strip{display:flex;align-items:center;gap:12px;padding:9px 13px;margin:0 0 13px;border:1px solid rgba(207,221,232,.9);border-left:4px solid #1769aa;border-right:4px solid #d95b5b;border-radius:10px;background:rgba(255,255,255,.90);box-shadow:0 4px 16px rgba(24,60,90,.05)}
+.facility-strip .facility-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#eaf4fb;color:#1769aa;font-weight:800;font-size:13px;overflow:hidden;flex:0 0 34px}
+.facility-strip .facility-mark img{width:100%;height:100%;object-fit:contain}
+.facility-strip .facility-name{font-weight:800;color:#164f7d;font-size:13px;line-height:1.15}
+.facility-strip .facility-meta{font-size:9px;color:#718096;margin-top:3px;line-height:1.35}
+.facility-strip .facility-code{margin-left:auto;font-size:9px;color:#718096;text-align:right}
+.facility-heading{padding:16px 18px;margin-bottom:14px;border:1px solid #d8e5ee;border-top:4px solid #1769aa;border-bottom:2px solid #d95b5b;border-radius:12px;background:rgba(255,255,255,.96);text-align:center}
+.facility-heading .fh-name{font-size:20px;font-weight:800;color:#164f7d}
+.facility-heading .fh-line{font-size:11px;color:#52677b;margin-top:4px}
+.facility-heading .fh-title{font-size:14px;font-weight:800;color:#26364a;margin-top:10px}
+.facility-heading .fh-sub{font-size:10px;color:#718096;margin-top:3px}
+.facility-heading{padding:16px 18px;margin-bottom:14px;border:1px solid #d8e5ee;border-top:4px solid #1769aa;border-bottom:2px solid #d95b5b;border-radius:12px;background:rgba(255,255,255,.96);text-align:center}.facility-heading .fh-name{font-size:20px;font-weight:800;color:#164f7d}.facility-heading .fh-line{font-size:10px;color:#52677b;margin-top:4px}.facility-heading .fh-title{font-size:13px;font-weight:800;color:#26364a;margin-top:9px}.facility-heading .fh-sub{font-size:9px;color:#718096;margin-top:3px}
+</style>
+
+
+
+
+<style id="scd-hard-frame-fix">
+
+/* Final frame: the blue navigation and working area are separate columns. */
+html,body{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  min-height:100%!important;
+  overflow-x:auto!important;
+}
+.app{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  min-height:100vh!important;
+  margin:0!important;
+  padding:0!important;
+}
+.sidebar,#sidebar{
+  position:fixed!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:315px!important;
+  min-width:315px!important;
+  max-width:315px!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:2147483647!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+  background:#075fc0!important;
+  background-image:none!important;
+  color:#fff!important;
+}
+.sidebar .brand,.sidebar .nav,.sidebar .nav a,
+#sidebar .brand,#sidebar .nav,#sidebar .nav a{
+  visibility:visible!important;
+  opacity:1!important;
+}
+.sidebar .nav a,#sidebar .nav a{
+  color:#fff!important;
+  text-decoration:none!important;
+}
+.main{
+  position:relative!important;
+  display:block!important;
+  width:calc(100% - 315px)!important;
+  min-width:0!important;
+  min-height:100vh!important;
+  margin:0 0 0 315px!important;
+  padding:14px 18px!important;
+  box-sizing:border-box!important;
+  background-color:#f7fafc!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),
+    url("nam.png")!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-attachment:fixed!important;
+}
+@media(max-width:720px){
+  html,body{min-width:900px!important;}
+  .sidebar,#sidebar{
+    position:fixed!important;
+    left:0!important;
+    width:315px!important;
+    min-width:315px!important;
+    max-width:315px!important;
+  }
+  .main{
+    margin-left:315px!important;
+    width:calc(100% - 315px)!important;
+    min-width:585px!important;
+    background-attachment:scroll!important;
+  }
+}
+
+</style>
+</head><body>
+<div class="wrap"><div class="facility-heading" id="facilityReportHeading">
+<div class="fh-name" data-facility-name>SCD Health Facility</div>
+<div class="fh-line" data-facility-tagline>Sickle Cell Health Services</div>
+<div class="fh-line" data-facility-location></div>
+<div class="fh-line" data-facility-contact></div>
+<div class="fh-title">Facility Report</div>
+<div class="fh-sub" data-facility-code></div>
+</div><div class="card">
+<h1>Facility Reports</h1><div class="sub">Select the report and reporting period. The report is generated separately from the dashboard.</div>
+<div class="grid">
+<div><label>Report</label><select id="report"><option value="">Select report</option><option>Monthly SCD Report</option><option>Quarterly SCD Report</option><option>Annual SCD Report</option><option>Patient Registration Summary</option><option>Clinic Attendance</option><option>Clinical Visits</option><option>Pain Crisis Summary</option><option>Laboratory Investigations</option><option>Medication and Treatment Summary</option><option>Blood Transfusion Summary</option><option>Vaccination Summary</option><option>Appointments and Follow-up</option><option>Referrals</option><option>Admissions</option><option>Mortality Report</option></select></div>
+<div><label>Unit</label><select id="unit"><option>All Units</option><option>Sickle Cell Clinic</option><option>Outpatient</option><option>Laboratory</option><option>Inpatient</option><option>Blood Transfusion</option></select></div>
+<div><label>From</label><input id="from" type="date"></div>
+<div><label>To</label><input id="to" type="date"></div>
+</div>
+<div class="actions"><button class="generate" onclick="generate()">Generate Report</button> <button class="back" onclick="location.href='dashboard.html'">Back to Dashboard</button></div>
+<div class="preview" id="preview"><iframe id="frame" title="Facility report"></iframe></div>
+</div></div>
+<script>
+function generate(){
+ const report=document.getElementById('report').value;
+ const unit=document.getElementById('unit').value;
+ const from=document.getElementById('from').value;
+ const to=document.getElementById('to').value;
+ if(!report||!from||!to){alert('Select a report and date range first.');return;}
+ document.getElementById('frame').src='facility-report.php?report='+encodeURIComponent(report)+'&unit='+encodeURIComponent(unit)+'&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+ document.getElementById('preview').style.display='block';
+ document.getElementById('preview').scrollIntoView({behavior:'smooth'});
+}
+</script>
+<script src="facility-settings.js"></script>
+</body></html>

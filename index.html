@@ -1,2241 +1,322 @@
+<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SCD Health System</title><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#edf5fc;font-family:Segoe UI,Arial;color:#172235}.login{width:min(420px,92%);padding:28px;background:#fff;border:1px solid #dce6ef;border-radius:16px;box-shadow:0 15px 40px #173b5d14}.brand{text-align:center;color:#0757ad}.brand .heart{font-size:38px}.brand h1{margin:5px 0}.brand p{font-size:11px;color:#6d7888;margin:0 0 22px}.field{margin-bottom:12px}.field label{display:block;font-size:10px;font-weight:700;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid #d8e2eb;border-radius:8px}.btn{width:100%;padding:11px;border:0;border-radius:8px;background:#0757ad;color:#fff;font-weight:700}.foot{text-align:center;font-size:9px;color:#8993a0;margin-top:17px}</style>
+<style id="modern-visual-theme">
+:root{
+  --brand:#1769aa;
+  --brand-dark:#0d4775;
+  --brand-soft:#eaf4fb;
+  --teal:#008f8c;
+  --teal-soft:#e8f7f6;
+  --purple:#6957a8;
+  --purple-soft:#f0edfb;
+  --green:#2f8f5b;
+  --green-soft:#eaf7ef;
+  --orange:#d9822b;
+  --orange-soft:#fff3e5;
+  --red:#c94b4b;
+  --red-soft:#fcecec;
+  --ink:#26364a;
+  --muted:#718096;
+  --line:#dfe7ef;
+  --surface:#ffffff;
+  --surface-soft:#f7fafc;
+  --shadow:0 8px 24px rgba(28,54,84,.08);
+}
 
-<!DOCTYPE html>
-<html lang="en">
+body{
+  background:
+    radial-gradient(circle at 92% 8%, rgba(105,87,168,.08), transparent 24%),
+    radial-gradient(circle at 12% 88%, rgba(0,143,140,.06), transparent 25%),
+    #f4f7fb !important;
+  color:var(--ink);
+}
 
-<head>
+.sidebar{
+  background:linear-gradient(180deg,#0d4775 0%,#135d91 52%,#1769aa 100%) !important;
+  box-shadow:8px 0 28px rgba(16,57,92,.12);
+}
 
-    <meta charset="UTF-8">
+.brand-mark{
+  background:linear-gradient(135deg,#28a7a0,#1769aa) !important;
+  box-shadow:0 7px 18px rgba(0,143,140,.22);
+}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+.nav a{
+  border-radius:10px !important;
+  margin:3px 10px !important;
+  transition:all .18s ease;
+}
 
-    <meta name="description"
-          content="Sickle Cell Disease Health Information System">
+.nav a:hover{
+  background:rgba(255,255,255,.11) !important;
+  transform:translateX(2px);
+}
 
-    <title>SCD Health Information System</title>
+.nav a.active{
+  background:linear-gradient(90deg,rgba(255,255,255,.20),rgba(255,255,255,.08)) !important;
+  box-shadow:inset 3px 0 0 #35b6b0;
+}
 
+.main{
+  background:transparent !important;
+}
 
-    <!-- GOOGLE FONT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+.top{
+  background:rgba(255,255,255,.90) !important;
+  border-bottom:1px solid rgba(223,231,239,.85) !important;
+  box-shadow:0 3px 18px rgba(28,54,84,.04);
+}
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+.card{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid var(--line) !important;
+  box-shadow:var(--shadow) !important;
+  border-radius:16px !important;
+}
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
+.card .head{
+  border-bottom-color:#edf1f5 !important;
+}
 
+.btn.primary{
+  background:linear-gradient(135deg,#1769aa,#008f8c) !important;
+  border:none !important;
+  box-shadow:0 6px 14px rgba(23,105,170,.18);
+}
 
-    <!-- FONT AWESOME -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+.btn.primary:hover{
+  filter:brightness(1.04);
+  transform:translateY(-1px);
+}
+
+.btn.light{
+  background:#f5f8fb !important;
+  border:1px solid #dce5ee !important;
+}
+
+input,select,textarea{
+  border:1px solid #d5e0ea !important;
+  background:#fbfdff !important;
+  border-radius:9px !important;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+
+input:focus,select:focus,textarea:focus{
+  outline:none !important;
+  border-color:#2b8ab7 !important;
+  background:#fff !important;
+  box-shadow:0 0 0 3px rgba(43,138,183,.10) !important;
+}
+
+.kpi{
+  border:1px solid var(--line) !important;
+  border-radius:15px !important;
+  box-shadow:0 6px 18px rgba(28,54,84,.06) !important;
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--brand),var(--teal));
+}
+
+.kpi.blue{background:linear-gradient(145deg,#fff,#eef7fd) !important}
+.kpi.green{background:linear-gradient(145deg,#fff,#edf8f1) !important}
+.kpi.red{background:linear-gradient(145deg,#fff,#fff0f0) !important}
+.kpi.orange{background:linear-gradient(145deg,#fff,#fff5e9) !important}
+
+.kpi.green:before{background:var(--green)}
+.kpi.red:before{background:var(--red)}
+.kpi.orange:before{background:var(--orange)}
+
+.riskbox{
+  border-radius:13px !important;
+  border:1px solid var(--line) !important;
+  box-shadow:0 5px 15px rgba(28,54,84,.05);
+}
+
+.riskbox.high{background:linear-gradient(145deg,#fff,#fcecec) !important;border-left:4px solid var(--red) !important}
+.riskbox.mod{background:linear-gradient(145deg,#fff,#fff4e7) !important;border-left:4px solid var(--orange) !important}
+.riskbox.low{background:linear-gradient(145deg,#fff,#edf8f1) !important;border-left:4px solid var(--green) !important}
+.riskbox.wait{background:linear-gradient(145deg,#fff,#f0edfb) !important;border-left:4px solid var(--purple) !important}
+
+.table{
+  border-radius:13px !important;
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+
+table thead{
+  background:linear-gradient(90deg,#eef5fb,#eef9f8) !important;
+}
+
+table th{
+  color:#34506a !important;
+}
+
+table tbody tr:hover{
+  background:#f8fbfd !important;
+}
+
+.tabs{
+  border-bottom:1px solid #dfe7ef !important;
+}
+
+.tab{
+  color:#60758a !important;
+  border-radius:8px 8px 0 0;
+}
+
+.tab.active{
+  color:#1769aa !important;
+  border-bottom:3px solid #008f8c !important;
+  background:#f5fbfb !important;
+}
+
+.avatar{
+  background:linear-gradient(135deg,#1769aa,#6957a8) !important;
+  box-shadow:0 5px 12px rgba(105,87,168,.16);
+}
+
+.quick .q{
+  border:1px solid #e0e8ef !important;
+  border-radius:13px !important;
+  background:linear-gradient(145deg,#fff,#f7fafc) !important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.quick .q:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 20px rgba(28,54,84,.08);
+  border-color:#bcd5e7 !important;
+}
+
+.quick .icon{
+  background:linear-gradient(135deg,#e9f4fb,#e9f8f7) !important;
+  color:#1769aa !important;
+  border-radius:11px !important;
+}
+
+.notice{
+  background:linear-gradient(90deg,#f1f7fc,#eef9f8) !important;
+  border:1px solid #d8e8ee !important;
+  border-left:4px solid var(--teal) !important;
+}
+
+.empty{
+  color:#7a8998 !important;
+}
+
+@media (max-width:700px){
+  .card{border-radius:13px !important}
+}
+</style>
 
 
 <style>
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   HTML / BODY
-   ========================================================= */
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-}
-
-
-body {
-    font-family: "Inter", sans-serif;
-    overflow: hidden;
-    color: #092d63;
-}
-
-
-/* =========================================================
-   MAIN PAGE
-   ========================================================= */
-
-.page {
-
-    width: 100%;
-    height: 100vh;
-
-    position: relative;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 25px 30px;
-
-    
-
-    background-image: url("indexback.png");
-
-    background-size: cover;
-
-    background-repeat: no-repeat;
-
-    background-position: center center;
-
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   SOFT OVERLAY
-   ========================================================= */
-
-.page::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,0.10),
-            rgba(255,255,255,0.03)
-        );
-
-    pointer-events: none;
-
-    z-index: 0;
-}
-
-
-/* =========================================================
-   CENTRAL CONTENT
-   ========================================================= */
-
-.page-content {
-
-    position: relative;
-
-    z-index: 2;
-
-    width: 100%;
-
-    max-width: 1180px;
-
-    height: 100%;
-
-    max-height: 720px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-}
-
-
-/* =========================================================
-   LEFT SECTION
-   ========================================================= */
-
-.left-section {
-
-    width: 50%;
-
-    height: 100%;
-
-    max-height: 680px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    padding: 15px 25px;
-}
-
-
-/* =========================================================
-   LOGO
-   ========================================================= */
-
-.logo {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 10px;
-}
-
-
-.logo-icon {
-
-    width: 68px;
-
-    height: 68px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 21px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0758c9,
-            #d92f3d
-        );
-
-    color: white;
-
-    font-size: 31px;
-
-    box-shadow:
-        0 12px 30px
-        rgba(7,88,201,0.20);
-
-    animation:
-        floating 3s ease-in-out infinite;
-}
-
-
-@keyframes floating {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-
-}
-
-
-/* =========================================================
-   LOGO TEXT
-   ========================================================= */
-
-.logo-text {
-
-    text-align: center;
-}
-
-
-.logo-text strong {
-
-    display: block;
-
-    font-size: 36px;
-
-    line-height: 1;
-
-    font-weight: 800;
-
-    color: #092d63;
-}
-
-
-.logo-text span {
-
-    display: block;
-
-    margin-top: 6px;
-
-    color: #304d76;
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   LEFT MESSAGE
-   ========================================================= */
-
-.left-message {
-
-    width: 100%;
-
-    max-width: 470px;
-
-    margin-top: 28px;
-
-    text-align: center;
-}
-
-
-.left-message h1 {
-
-    font-size: 36px;
-
-    line-height: 1.15;
-
-    font-weight: 800;
-
-    letter-spacing: -0.8px;
-
-    color: #092d63;
-}
-
-
-.left-message h1 span {
-
-    color: #d92f3d;
-}
-
-
-.left-message p {
-
-    max-width: 410px;
-
-    margin: 14px auto 0;
-
-    color: #526782;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   FEATURES
-   ========================================================= */
-
-.features {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    margin-top: 20px;
-}
-
-
-.feature {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    padding: 8px 13px;
-
-    border-radius: 30px;
-
-    background:
-        rgba(255,255,255,0.72);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.9);
-
-    backdrop-filter: blur(8px);
-
-    -webkit-backdrop-filter: blur(8px);
-
-    color: #24466f;
-
-    font-size: 10px;
-
-    font-weight: 600;
-}
-
-
-.feature i {
-
-    color: #0758c9;
-}
-
-
-/* =========================================================
-   RIGHT SECTION
-   ========================================================= */
-
-.right-section {
-
-    width: 430px;
-
-    height: 100%;
-
-    max-height: 680px;
-
-    position: relative;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    padding-left: 25px;
-}
-
-
-/* =========================================================
-   START AREA
-   ========================================================= */
-
-.start-area {
-
-    width: 390px;
-
-    max-width: 100%;
-
-    text-align: center;
-
-    padding: 32px 28px;
-
-    border-radius: 22px;
-
-    background:
-        rgba(255,255,255,0.60);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.85);
-
-    backdrop-filter: blur(10px);
-
-    -webkit-backdrop-filter: blur(10px);
-
-    box-shadow:
-        0 18px 45px
-        rgba(9,45,99,0.10);
-
-    transition:
-        opacity 0.35s ease,
-        transform 0.35s ease;
-}
-
-
-.start-area.hide {
-
-    opacity: 0;
-
-    transform:
-        translateX(30px);
-
-    pointer-events: none;
-
-    position: absolute;
-}
-
-
-/* =========================================================
-   START ICON
-   ========================================================= */
-
-.start-icon {
-
-    width: 58px;
-
-    height: 58px;
-
-    margin: 0 auto 16px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 18px;
-
-    background:
-        rgba(255,255,255,0.85);
-
-    color: #0758c9;
-
-    font-size: 24px;
-
-    box-shadow:
-        0 8px 20px
-        rgba(7,88,201,0.11);
-}
-
-
-/* =========================================================
-   START TITLE
-   ========================================================= */
-
-.start-area h2 {
-
-    font-size: 25px;
-
-    font-weight: 800;
-
-    color: #092d63;
-
-    margin-bottom: 8px;
-}
-
-
-.start-area p {
-
-    max-width: 295px;
-
-    margin: 0 auto 22px;
-
-    color: #526782;
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   START BUTTON
-   ========================================================= */
-
-.start-button {
-
-    min-width: 180px;
-
-    height: 52px;
-
-    padding: 0 25px;
-
-    border: none;
-
-    border-radius: 12px;
-
-    background:
-        linear-gradient(
-            100deg,
-            #092d63,
-            #0758c9,
-            #d92f3d
-        );
-
-    color: white;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    box-shadow:
-        0 11px 25px
-        rgba(7,88,201,0.22);
-
-    transition: 0.25s ease;
-}
-
-
-.start-button:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 15px 30px
-        rgba(7,88,201,0.28);
-}
-
-
-/* =========================================================
-   LOGIN CONTAINER
-   ========================================================= */
-
-.login-container {
-
-    width: 420px;
-
-    max-width: 100%;
-
-    padding: 27px 34px 20px;
-
-    border-radius: 21px;
-
-    background:
-        rgba(255,255,255,0.97);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.95);
-
-    box-shadow:
-        0 22px 55px
-        rgba(9,45,99,0.19);
-
-    backdrop-filter: blur(12px);
-
-    -webkit-backdrop-filter: blur(12px);
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform:
-        translateX(35px)
-        scale(0.97);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.4s ease,
-        visibility 0.4s ease;
-}
-
-
-/* =========================================================
-   SHOW LOGIN
-   ========================================================= */
-
-.login-container.show {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform:
-        translateX(0)
-        scale(1);
-}
-
-
-/* =========================================================
-   LOGIN HEADER
-   ========================================================= */
-
-.login-header {
-
-    text-align: center;
-
-    margin-bottom: 18px;
-}
-
-
-.login-logo {
-
-    width: 48px;
-
-    height: 48px;
-
-    margin: 0 auto 10px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 15px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0758c9,
-            #d92f3d
-        );
-
-    color: white;
-
-    font-size: 21px;
-}
-
-
-.login-header h2 {
-
-    font-size: 25px;
-
-    line-height: 1.2;
-
-    color: #092d63;
-
-    font-weight: 800;
-}
-
-
-.login-header h2 span {
-
-    color: #d92f3d;
-}
-
-
-.login-header p {
-
-    margin-top: 5px;
-
-    font-size: 11px;
-
-    color: #667085;
-}
-
-
-/* =========================================================
-   INPUT GROUP
-   ========================================================= */
-
-.input-group {
-
-    margin-bottom: 13px;
-}
-
-
-.input-group label {
-
-    display: block;
-
-    margin-bottom: 6px;
-
-    color: #344054;
-
-    font-size: 11px;
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   INPUT BOX
-   ========================================================= */
-
-.input-box {
-
-    width: 100%;
-
-    height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    background: white;
-
-    border:
-        1px solid
-        #d9e1ec;
-
-    border-radius: 10px;
-
-    transition: 0.25s ease;
-}
-
-
-.input-box:focus-within {
-
-    border-color: #0758c9;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(7,88,201,0.07);
-}
-
-
-.input-icon {
-
-    width: 44px;
-
-    text-align: center;
-
-    color: #718096;
-
-    font-size: 13px;
-}
-
-
-.input-box input {
-
-    flex: 1;
-
-    width: 100%;
-
-    height: 100%;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    font-family: inherit;
-
-    font-size: 12px;
-
-    color: #102a56;
-}
-
-
-.input-box input::placeholder {
-
-    color: #98a2b3;
-}
-
-
-/* =========================================================
-   PASSWORD TOGGLE
-   ========================================================= */
-
-.password-toggle {
-
-    width: 44px;
-
-    height: 100%;
-
-    border: none;
-
-    background: transparent;
-
-    color: #667085;
-
-    cursor: pointer;
-}
-
-
-.password-toggle:hover {
-
-    color: #0758c9;
-}
-
-
-/* =========================================================
-   FORM OPTIONS
-   ========================================================= */
-
-.form-options {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin: 2px 0 16px;
-}
-
-
-.remember {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    color: #667085;
-
-    font-size: 10px;
-
-    cursor: pointer;
-}
-
-
-.remember input {
-
-    width: 14px;
-
-    height: 14px;
-
-    accent-color: #0758c9;
-}
-
-
-.forgot {
-
-    border: none;
-
-    background: transparent;
-
-    color: #0758c9;
-
-    font-family: inherit;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-.forgot:hover {
-
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   LOGIN BUTTON
-   ========================================================= */
-
-.login-button {
-
-    width: 100%;
-
-    height: 49px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            100deg,
-            #092d63,
-            #0758c9
-        );
-
-    color: white;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    transition: 0.25s ease;
-}
-
-
-.login-button:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 9px 20px
-        rgba(7,88,201,0.20);
-}
-
-
-/* =========================================================
-   DIVIDER
-   ========================================================= */
-
-.divider {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    margin: 16px 0;
-}
-
-
-.divider span {
-
-    flex: 1;
-
-    height: 1px;
-
-    background: #e5e7eb;
-}
-
-
-.divider p {
-
-    color: #98a2b3;
-
-    font-size: 8px;
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   ADMIN BUTTON
-   ========================================================= */
-
-.admin-button {
-
-    width: 100%;
-
-    height: 45px;
-
-    border:
-        1.5px solid
-        #b8d3ff;
-
-    border-radius: 10px;
-
-    background: #f7fbff;
-
-    color: #0758c9;
-
-    font-family: inherit;
-
-    font-size: 11px;
-
-    font-weight: 650;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    transition: 0.25s ease;
-}
-
-
-.admin-button:hover {
-
-    background: #edf6ff;
-
-    border-color: #0758c9;
-}
-
-
-/* =========================================================
-   ACCOUNT TEXT
-   ========================================================= */
-
-.account-text {
-
-    text-align: center;
-
-    margin: 14px 0;
-
-    color: #667085;
-
-    font-size: 10px;
-}
-
-
-.account-text button {
-
-    border: none;
-
-    background: transparent;
-
-    color: #0758c9;
-
-    font-family: inherit;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-.account-text button:hover {
-
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   SECURITY
-   ========================================================= */
-
-.security {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 6px;
-
-    padding: 8px;
-
-    border-radius: 7px;
-
-    background: #f7fafc;
-
-    color: #667085;
-
-    font-size: 8px;
-}
-
-
-.security i {
-
-    color: #159957;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.footer {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 6px;
-
-    margin-top: 12px;
-
-    color: #98a2b3;
-
-    font-size: 8px;
-}
-
-
-.footer button {
-
-    border: none;
-
-    background: transparent;
-
-    color: #667085;
-
-    font-family: inherit;
-
-    font-size: 8px;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
-
-.back-button {
-
-    position: absolute;
-
-    top: 8px;
-
-    right: -5px;
-
-    z-index: 20;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 6px;
-
-    padding: 8px 13px;
-
-    border: none;
-
-    border-radius: 30px;
-
-    background:
-        rgba(255,255,255,0.82);
-
-    backdrop-filter: blur(8px);
-
-    color: #092d63;
-
-    font-family: inherit;
-
-    font-size: 9px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform: translateY(-8px);
-
-    transition: 0.3s ease;
-}
-
-
-.back-button.show {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform: translateY(0);
-}
-
-
-.back-button:hover {
-
-    background: white;
-
-    color: #0758c9;
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 950px) {
-
-    .page {
-
-        padding: 20px;
-
-    }
-
-
-    .page-content {
-
-        max-width: 850px;
-
-    }
-
-
-    .left-section {
-
-        width: 48%;
-
-    }
-
-
-    .right-section {
-
-        width: 390px;
-
-    }
-
-
-    .left-message h1 {
-
-        font-size: 32px;
-
-    }
-
-
-    .logo-text strong {
-
-        font-size: 33px;
-
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 760px) {
-
-    body {
-
-        overflow: auto;
-
-    }
-
-
-    .page {
-
-        min-height: 100vh;
-
-        height: auto;
-
-        padding: 25px 18px;
-
-        overflow: auto;
-
-    }
-
-
-    .page-content {
-
-        height: auto;
-
-        max-height: none;
-
-        min-height: auto;
-
-        display: flex;
-
-        justify-content: center;
-
-    }
-
-
-    .left-section {
-
-        display: none;
-
-    }
-
-
-    .right-section {
-
-        width: 100%;
-
-        max-width: 430px;
-
-        height: auto;
-
-        max-height: none;
-
-        min-height: auto;
-
-        padding-left: 0;
-
-        justify-content: center;
-
-    }
-
-
-    .start-area {
-
-        width: 100%;
-
-    }
-
-
-    .login-container {
-
-        width: 100%;
-
-    }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 390px) {
-
-    .login-container {
-
-        padding: 25px 18px 19px;
-
-    }
-
-
-    .login-header h2 {
-
-        font-size: 23px;
-
-    }
-
-
-    .start-area {
-
-        padding: 28px 20px;
-
-    }
-
+/* Facility identity layer */
+.facility-strip{display:flex;align-items:center;gap:12px;padding:9px 13px;margin:0 0 13px;border:1px solid rgba(207,221,232,.9);border-left:4px solid #1769aa;border-right:4px solid #d95b5b;border-radius:10px;background:rgba(255,255,255,.90);box-shadow:0 4px 16px rgba(24,60,90,.05)}
+.facility-strip .facility-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#eaf4fb;color:#1769aa;font-weight:800;font-size:13px;overflow:hidden;flex:0 0 34px}
+.facility-strip .facility-mark img{width:100%;height:100%;object-fit:contain}
+.facility-strip .facility-name{font-weight:800;color:#164f7d;font-size:13px;line-height:1.15}
+.facility-strip .facility-meta{font-size:9px;color:#718096;margin-top:3px;line-height:1.35}
+.facility-strip .facility-code{margin-left:auto;font-size:9px;color:#718096;text-align:right}
+.facility-heading{padding:16px 18px;margin-bottom:14px;border:1px solid #d8e5ee;border-top:4px solid #1769aa;border-bottom:2px solid #d95b5b;border-radius:12px;background:rgba(255,255,255,.96);text-align:center}
+.facility-heading .fh-name{font-size:20px;font-weight:800;color:#164f7d}
+.facility-heading .fh-line{font-size:11px;color:#52677b;margin-top:4px}
+.facility-heading .fh-title{font-size:14px;font-weight:800;color:#26364a;margin-top:10px}
+.facility-heading .fh-sub{font-size:10px;color:#718096;margin-top:3px}
+</style>
+
+
+
+
+<style id="scd-hard-frame-fix">
+
+/* Final frame: the blue navigation and working area are separate columns. */
+html,body{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  min-height:100%!important;
+  overflow-x:auto!important;
+}
+.app{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  min-height:100vh!important;
+  margin:0!important;
+  padding:0!important;
+}
+.sidebar,#sidebar{
+  position:fixed!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:315px!important;
+  min-width:315px!important;
+  max-width:315px!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:2147483647!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+  background:#075fc0!important;
+  background-image:none!important;
+  color:#fff!important;
+}
+.sidebar .brand,.sidebar .nav,.sidebar .nav a,
+#sidebar .brand,#sidebar .nav,#sidebar .nav a{
+  visibility:visible!important;
+  opacity:1!important;
+}
+.sidebar .nav a,#sidebar .nav a{
+  color:#fff!important;
+  text-decoration:none!important;
+}
+.main{
+  position:relative!important;
+  display:block!important;
+  width:calc(100% - 315px)!important;
+  min-width:0!important;
+  min-height:100vh!important;
+  margin:0 0 0 315px!important;
+  padding:14px 18px!important;
+  box-sizing:border-box!important;
+  background-color:#f7fafc!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),
+    url("nam.png")!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-attachment:fixed!important;
+}
+@media(max-width:720px){
+  html,body{min-width:900px!important;}
+  .sidebar,#sidebar{
+    position:fixed!important;
+    left:0!important;
+    width:315px!important;
+    min-width:315px!important;
+    max-width:315px!important;
+  }
+  .main{
+    margin-left:315px!important;
+    width:calc(100% - 315px)!important;
+    min-width:585px!important;
+    background-attachment:scroll!important;
+  }
 }
 
 </style>
-
-</head>
-
-
-<body>
-
-
-<!-- =========================================================
-     MAIN PAGE
-     ========================================================= -->
-
-<main class="page">
-
-
-    <!-- =====================================================
-         CENTRAL CONTENT WRAPPER
-         ===================================================== -->
-
-    <div class="page-content">
-
-
-        <!-- =================================================
-             LEFT SIDE
-             ================================================= -->
-
-        <section class="left-section">
-
-
-            <!-- LOGO -->
-
-            <div class="logo">
-
-
-                <div class="logo-icon">
-
-                    <i class="fa-solid fa-heart-pulse"></i>
-
-                </div>
-
-
-                <div class="logo-text">
-
-                    <strong>SCD</strong>
-
-                    <span>
-                        Patient Health Information System
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- LEFT MESSAGE -->
-
-            <div class="left-message">
-
-
-                <h1>
-
-                    Better records.<br>
-
-                    <span>Better care.</span><br>
-
-                    Better lives.
-
-                </h1>
-
-
-                <p>
-
-                    A simple, secure and reliable health
-                    information system designed to support
-                    better management and care for people
-                    living with Sickle Cell Disease.
-
-                </p>
-
-
-
-                <!-- FEATURES -->
-
-                <div class="features">
-
-
-                    <div class="feature">
-
-                        <i class="fa-solid fa-shield-heart"></i>
-
-                        Secure System <br>By Akello Naomi Otim
-
-                    </div>
-
-
-                    <div class="feature">
-
-                        <i class="fa-solid fa-user-doctor"></i>
-
-                        Better Care
-
-                    </div>
-
-
-                    <div class="feature">
-
-                        <i class="fa-solid fa-clock"></i>
-
-                        Quick Access
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             RIGHT SIDE
-             ================================================= -->
-
-        <section class="right-section">
-
-
-            <!-- =================================================
-                 START NOW PANEL
-                 ================================================= -->
-
-            <div
-                class="start-area"
-                id="startArea">
-
-
-                <div class="start-icon">
-
-                    <i class="fa-solid fa-heart-pulse"></i>
-
-                </div>
-
-
-                <h2>
-
-                    Welcome to Sickle Cell Disease HIS
-
-                </h2>
-
-
-                <p>
-
-                    Access patient information and
-                    health services securely through
-                    the SCD Health Information System.
-
-                </p>
-
-
-                <button
-                    type="button"
-                    class="start-button"
-                    id="startButton">
-
-                    START NOW
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </button>
-
-
-            </div>
-
-
-
-            <!-- =================================================
-                 LOGIN FORM
-                 ================================================= -->
-
-            <div
-                class="login-container"
-                id="loginContainer">
-
-
-                <!-- LOGIN HEADER -->
-
-                <div class="login-header">
-
-
-                    <div class="login-logo">
-
-                        <i class="fa-solid fa-heart-pulse"></i>
-
-                    </div>
-
-
-                    <h2>
-
-                        Welcome <span>Back</span>
-
-                    </h2>
-
-
-                    <p>
-
-                        Sign in to your account
-
-                    </p>
-
-
-                </div>
-
-
-
-                <!-- LOGIN FORM -->
-
-                <form id="loginForm">
-
-
-                    <!-- USERNAME -->
-
-                    <div class="input-group">
-
-
-                        <label for="username">
-
-                            Username or Email
-
-                        </label>
-
-
-                        <div class="input-box">
-
-
-                            <i
-                                class="fa-regular fa-user input-icon">
-                            </i>
-
-
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder="Enter username or email"
-                                autocomplete="username"
-                                required
-                            >
-
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <!-- PASSWORD -->
-
-                    <div class="input-group">
-
-
-                        <label for="password">
-
-                            Password
-
-                        </label>
-
-
-                        <div class="input-box">
-
-
-                            <i
-                                class="fa-solid fa-lock input-icon">
-                            </i>
-
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                id="passwordToggle"
-                                aria-label="Show password">
-
-
-                                <i
-                                    class="fa-regular fa-eye"
-                                    id="eyeIcon">
-                                </i>
-
-
-                            </button>
-
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <!-- OPTIONS -->
-
-                    <div class="form-options">
-
-
-                        <label class="remember">
-
-
-                            <input
-                                type="checkbox"
-                                id="remember">
-
-
-                            Remember me
-
-
-                        </label>
-
-
-                        <button
-                            type="button"
-                            class="forgot"
-                            id="forgotButton">
-
-                            Forgot password?
-
-                        </button>
-
-
-                    </div>
-
-
-
-                    <!-- SIGN IN -->
-
-                    <button
-                        type="submit"
-                        class="login-button">
-
-                        <a href="dashboard.html">Sign In</a>
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </button>
-
-
-                </form>
-
-
-
-                <!-- DIVIDER -->
-
-                <div class="divider">
-
-                    <span></span>
-
-                    <p>OR</p>
-
-                    <span></span>
-
-                </div>
-
-
-
-                <!-- ADMIN -->
-
-                <button
-                    type="button"
-                    class="admin-button"
-                    id="adminButton">
-
-
-                    <i class="fa-solid fa-shield-halved"></i>
-
-
-                    Login as Administrator
-
-
-                </button>
-
-
-
-                <!-- ACCOUNT -->
-
-                <p class="account-text">
-
-
-                    Don't have an account?
-
-
-                    <button
-                        type="button"
-                        id="contactButton">
-
-                        Contact administrator
-
-                    </button>
-
-
-                </p>
-
-
-
-                <!-- SECURITY -->
-
-                <div class="security">
-
-
-                    <i class="fa-solid fa-shield-heart"></i>
-
-
-                    Your health information is protected
-
-
-                </div>
-
-
-
-                <!-- FOOTER -->
-
-                <footer class="footer">
-
-
-                    <span>
-
-                        © 2026 SCD Health System
-
-                    </span>
-
-
-                    <span>•</span>
-
-
-                    <button
-                        type="button"
-                        id="privacyButton">
-
-                        Privacy
-
-                    </button>
-
-
-                    <span>•</span>
-
-
-                    <button
-                        type="button"
-                        id="helpButton">
-
-                        Help
-
-                    </button>
-
-
-                </footer>
-
-
-            </div>
-
-
-
-            <!-- =================================================
-                 BACK BUTTON
-                 ================================================= -->
-
-            <button
-                type="button"
-                class="back-button"
-                id="backButton">
-
-
-                <i class="fa-solid fa-arrow-left"></i>
-
-
-                Back
-
-
-            </button>
-
-
-        </section>
-
-
-    </div>
-
-
-</main>
-
-
-
-<script>
-
-/* =========================================================
-   GET ELEMENTS
-   ========================================================= */
-
-const startButton =
-    document.getElementById("startButton");
-
-const startArea =
-    document.getElementById("startArea");
-
-const loginContainer =
-    document.getElementById("loginContainer");
-
-const backButton =
-    document.getElementById("backButton");
-
-const loginForm =
-    document.getElementById("loginForm");
-
-const username =
-    document.getElementById("username");
-
-const password =
-    document.getElementById("password");
-
-const remember =
-    document.getElementById("remember");
-
-const passwordToggle =
-    document.getElementById("passwordToggle");
-
-const eyeIcon =
-    document.getElementById("eyeIcon");
-
-
-/* =========================================================
-   START NOW
-   ========================================================= */
-
-startButton.addEventListener(
-    "click",
-    function () {
-
-        /*
-           Hide only the START NOW panel.
-           The left side remains visible.
-        */
-
-        startArea.classList.add("hide");
-
-
-        setTimeout(
-            function () {
-
-                loginContainer.classList.add("show");
-
-                backButton.classList.add("show");
-
-            },
-            150
-        );
-
-    }
-);
-
-
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
-
-backButton.addEventListener(
-    "click",
-    function () {
-
-        loginContainer.classList.remove("show");
-
-        backButton.classList.remove("show");
-
-
-        setTimeout(
-            function () {
-
-                startArea.classList.remove("hide");
-
-            },
-            200
-        );
-
-    }
-);
-
-
-/* =========================================================
-   SHOW / HIDE PASSWORD
-   ========================================================= */
-
-passwordToggle.addEventListener(
-    "click",
-    function () {
-
-        if (password.type === "password") {
-
-            password.type = "text";
-
-            eyeIcon.classList.remove(
-                "fa-eye"
-            );
-
-            eyeIcon.classList.add(
-                "fa-eye-slash"
-            );
-
-            passwordToggle.setAttribute(
-                "aria-label",
-                "Hide password"
-            );
-
-        }
-
-        else {
-
-            password.type = "password";
-
-            eyeIcon.classList.remove(
-                "fa-eye-slash"
-            );
-
-            eyeIcon.classList.add(
-                "fa-eye"
-            );
-
-            passwordToggle.setAttribute(
-                "aria-label",
-                "Show password"
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   REMEMBER USERNAME
-   ========================================================= */
-
-window.addEventListener(
-    "load",
-    function () {
-
-        const savedUsername =
-            localStorage.getItem(
-                "scd_username"
-            );
-
-
-        if (savedUsername) {
-
-            username.value =
-                savedUsername;
-
-            remember.checked =
-                true;
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   LOGIN FORM
-   ========================================================= */
-
-loginForm.addEventListener(
-    "submit",
-    function (event) {
-
-        event.preventDefault();
-
-
-        const user =
-            username.value.trim();
-
-        const pass =
-            password.value.trim();
-
-
-        if (!user) {
-
-            alert(
-                "Please enter your username or email."
-            );
-
-            username.focus();
-
-            return;
-
-        }
-
-
-        if (!pass) {
-
-            alert(
-                "Please enter your password."
-            );
-
-            password.focus();
-
-            return;
-
-        }
-
-
-        /* SAVE USERNAME */
-
-        if (remember.checked) {
-
-            localStorage.setItem(
-                "scd_username",
-                user
-            );
-
-        }
-
-        else {
-
-            localStorage.removeItem(
-                "scd_username"
-            );
-
-        }
-
-
-        /*
-           --------------------------------------------------
-           TEMPORARY LOGIN
-           --------------------------------------------------
-
-           This is currently only the frontend.
-
-           Later we will replace this section with:
-
-           fetch("login.php", {...})
-
-           or a Flask API request.
-
-        */
-
-
-        alert(
-            "Login submitted successfully."
-        );
-
-    }
-);
-
-
-/* =========================================================
-   FORGOT PASSWORD
-   ========================================================= */
-
-document
-    .getElementById("forgotButton")
-    .addEventListener(
-        "click",
-        function () {
-
-            alert(
-                "Please contact the system administrator to reset your password."
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   ADMIN LOGIN
-   ========================================================= */
-
-document
-    .getElementById("adminButton")
-    .addEventListener(
-        "click",
-        function () {
-
-            alert(
-                "Administrator login selected."
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   CONTACT ADMINISTRATOR
-   ========================================================= */
-
-document
-    .getElementById("contactButton")
-    .addEventListener(
-        "click",
-        function () {
-
-            alert(
-                "Please contact the system administrator to create an account."
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   PRIVACY
-   ========================================================= */
-
-document
-    .getElementById("privacyButton")
-    .addEventListener(
-        "click",
-        function () {
-
-            alert(
-                "Patient information is only accessible to authorized users."
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   HELP
-   ========================================================= */
-
-document
-    .getElementById("helpButton")
-    .addEventListener(
-        "click",
-        function () {
-
-            alert(
-                "Enter your username and password to access the SCD Health Information System."
-            );
-
-        }
-    );
-
-</script>
-
-
-</body>
-
-</html>
+</head><body><div class="login"><div class="brand"><div class="heart">♥</div><h1>SCD</h1><p>Patient Health Record System</p></div><form onsubmit="event.preventDefault();location.href='dashboard.html'"><div class="field"><label>Username</label><input required></div><div class="field"><label>Password</label><input type="password" required></div><button class="btn">Sign In</button></form><div class="foot">© 2026 SCD Health System</div></div>
+<script src="facility-settings.js"></script>
+</body></html>
